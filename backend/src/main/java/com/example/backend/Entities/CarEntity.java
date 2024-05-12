@@ -20,8 +20,8 @@ public class CarEntity {
     private String model;
     private String color;
     private int year;
-    private float engineCapacity;
-    private FuelType fuelType;
+    private double engineCapacity;
+    private String fuelType;
     private int power;
     private int torque;
     private double trunkCapacity;

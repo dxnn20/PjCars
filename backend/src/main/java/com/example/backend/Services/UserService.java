@@ -9,7 +9,11 @@ import java.util.Objects;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public UserEntity validateUser(String username, String password, UserRepository userRepository)
     {
@@ -27,6 +31,7 @@ public class UserService {
         UserEntity user = new UserEntity();
         user.setUsername(username);
         user.setPassword(password);
+        user.setRole("USER");
         userRepository.save(user);
     }
 

@@ -21,5 +21,5 @@ public class UserEntity {
 
     private String password;
 
-    Role role;
+    String role;
 }
