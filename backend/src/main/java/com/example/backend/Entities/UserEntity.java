@@ -3,13 +3,15 @@ package com.example.backend.Entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
 @Data
 @NoArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +21,5 @@ public class User {
 
     private String password;
 
-
+    Role role;
 }
