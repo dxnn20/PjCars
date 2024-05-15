@@ -35,12 +35,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeHttpRequests(config -> config
-                        .requestMatchers("/cars").authenticated()
+                        .requestMatchers("/cars/all").authenticated()
                         .requestMatchers("/security/sign-up").permitAll()
                         .requestMatchers("/security/sign-in").permitAll()
                         .requestMatchers("/security").permitAll()
                         .requestMatchers("/cars/create").hasAuthority("COMPANY")
-                        .requestMatchers("/cars/{registrationNumber}").permitAll()
+                        .requestMatchers("/cars/{registrationNumber}").authenticated()
                         .requestMatchers("/users/create").permitAll()
                         .requestMatchers("/users/request-company").hasAuthority("USER")
                         .requestMatchers("/users/approve-company").hasAuthority("ADMIN")

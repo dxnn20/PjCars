@@ -43,7 +43,7 @@ public class CarController {
         return carService.getCarByRegistrationNumber(registrationNumber);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<CarEntity> getAllCars() {
         return carService.getAllCars();
     }
