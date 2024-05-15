@@ -1,6 +1,6 @@
 package com.example.backend.Controllers;
 
-import com.example.backend.Entities.Role;
+import com.example.backend.Security.UserRepository;
 import com.example.backend.Services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +17,8 @@ public class SecurityController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public String security() throws JsonProcessingException{
@@ -30,19 +32,14 @@ public class SecurityController {
         return json;
     }
 
-    @GetMapping("/security/user")
-    public String securityUser() throws JsonProcessingException{
-        return Role.valueOf("USER").toString();
-    }
-
-    @GetMapping("/security/admin")
-    public String securityAdmin() throws JsonProcessingException{
-        return Role.valueOf("ADMIN").toString();
-    }
-
     @PostMapping("/security/sign-up")
-    public String signUp(String username, String password) throws JsonProcessingException {
+    public String signUp(String username, String password) {
         userService.createUser(username, password);
         return "User created";
+    }
+
+    @PostMapping("/security/sign-in")
+    public String signIn(String username, String password) {
+        return userService.validateUser(username, password, userRepository).toString();
     }
 }

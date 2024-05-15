@@ -1,7 +1,7 @@
 package com.example.backend.Services;
 
 import com.example.backend.Entities.UserEntity;
-import com.example.backend.Repositories.UserRepository;
+import com.example.backend.Security.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -32,7 +32,42 @@ public class UserService {
         user.setUsername(username);
         user.setPassword(password);
         user.setRole("USER");
+        user.setStatus("BASE");
         userRepository.save(user);
     }
 
+    public Boolean requestAdmin(int Id){
+        UserEntity user=userRepository.findById(Id).orElse(null);
+        if (user!=null)
+        {
+            user.setStatus("PENDING");
+            userRepository.save(user);
+            return true;
+        }
+        else return false;
+    }
+
+    public Boolean approveCompany(int Id){
+        UserEntity user=userRepository.findById(Id).orElse(null);
+        if (user!=null)
+        {
+            user.setRole("COMPANY");
+            user.setStatus("APPROVED");
+            userRepository.save(user);
+            return true;
+        }
+        else return false;
+    }
+
+    public Boolean rejectCompany(int Id){
+        UserEntity user=userRepository.findById(Id).orElse(null);
+        if (user!=null)
+        {
+            user.setRole("USER");
+            user.setStatus("REJECTED");
+            userRepository.save(user);
+            return true;
+        }
+        else return false;
+    }
 }

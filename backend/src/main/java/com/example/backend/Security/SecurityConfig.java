@@ -35,12 +35,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeHttpRequests(config -> config
-                        .requestMatchers("/cars").permitAll()
+                        .requestMatchers("/cars").authenticated()
                         .requestMatchers("/security/sign-up").permitAll()
+                        .requestMatchers("/security/sign-in").permitAll()
                         .requestMatchers("/security").permitAll()
-                        .requestMatchers("/cars/create").permitAll()
+                        .requestMatchers("/cars/create").hasAuthority("COMPANY")
                         .requestMatchers("/cars/{registrationNumber}").permitAll()
                         .requestMatchers("/users/create").permitAll()
+                        .requestMatchers("/users/request-company").hasAuthority("USER")
+                        .requestMatchers("/users/approve-company").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(withDefaults());
 
