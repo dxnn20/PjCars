@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/security").permitAll()
                         .requestMatchers("/cars/create").hasAuthority("COMPANY")
                         .requestMatchers("/cars/{registrationNumber}").authenticated()
+                        .requestMatchers("/cars/filter").permitAll()
                         .requestMatchers("/users/create").permitAll()
                         .requestMatchers("/users/request-company").hasAuthority("USER")
                         .requestMatchers("/users/approve-company").hasAuthority("ADMIN")

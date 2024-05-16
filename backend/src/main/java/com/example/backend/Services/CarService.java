@@ -52,4 +52,9 @@ public class CarService {
     public CarEntity getCarByRegistrationNumber(String registrationNumber) {
         return carRepository.findByRegistrationNumber(registrationNumber);
     }
+
+    public List<CarEntity> filterCars(String brand, String model, String fuelType) {
+        return carRepository.filterCars(brand, model, fuelType);
+    }
+
 }

@@ -48,4 +48,13 @@ public class CarController {
         return carService.getAllCars();
     }
 
+    @GetMapping("/filter")
+    public List<CarEntity> filterCars(
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String fuelType
+    ){
+        return carService.filterCars(brand, model, fuelType);
+    }
+
 }

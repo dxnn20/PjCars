@@ -12,3 +12,6 @@ VALUES ('admin', 'admin', 'ADMIN', 'APPROVED');
 
 INSERT INTO users (username, password, role, status)
 VALUES ('user', 'user', 'USER', 'BASE');
+
+INSERT INTO users (username, password, role, status)
+VALUES ('company', 'company', 'COMPANY', 'APPROVED');
