@@ -7,6 +7,9 @@ VALUES ('DEF456', 'Ford', 'Focus', 'White', 2019, 1.5, 'Diesel', 150, 200, 600, 
 INSERT INTO cars (registration_number, brand, model, color, year, engine_capacity, fuel_type, power, torque, trunk_capacity, price)
 VALUES ('GHI789', 'Volkswagen', 'Golf', 'Red', 2018, 2, 'Petrol', 200, 250, 700, 35000.00);
 
+INSERT INTO cars (registration_number, brand, model, color, year, engine_capacity, fuel_type, power, torque, trunk_capacity, price)
+VALUES ('JKL012', 'Audi', 'A4', 'Blue', 2017, 2.5, 'Diesel', 250, 300, 800, 40000.00);
+
 INSERT INTO users (username, password, role, status)
 VALUES ('admin', 'admin', 'ADMIN', 'APPROVED');
 
