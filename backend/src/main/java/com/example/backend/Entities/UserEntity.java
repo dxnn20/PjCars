@@ -2,14 +2,15 @@ package com.example.backend.Entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Setter;
 
 @Entity
 @Table(name="users")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class UserEntity {
 
@@ -21,5 +22,7 @@ public class UserEntity {
 
     private String password;
 
-    Role role;
+    String role;
+
+    String status;
 }

@@ -1,14 +1,12 @@
 package com.example.backend.Services;
 
 import com.example.backend.Entities.CarEntity;
-import com.example.backend.Entities.FuelType;
 import com.example.backend.Repositories.CarRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -30,7 +28,7 @@ public class CarService {
             car.setColor(color);
             car.setYear(year);
             car.setEngineCapacity(engineCapacity);
-            car.setFuelType(FuelType.valueOf(fuelType));
+            car.setFuelType(fuelType);
             car.setPower(power);
             car.setTorque(torque);
             car.setTrunkCapacity(trunkCapacity);
@@ -54,4 +52,9 @@ public class CarService {
     public CarEntity getCarByRegistrationNumber(String registrationNumber) {
         return carRepository.findByRegistrationNumber(registrationNumber);
     }
+
+    public List<CarEntity> filterCars(String brand, String model, String fuelType) {
+        return carRepository.filterCars(brand, model, fuelType);
+    }
+
 }

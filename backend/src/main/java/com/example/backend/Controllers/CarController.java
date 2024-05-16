@@ -39,21 +39,22 @@ public class CarController {
     }
 
     @GetMapping("/{registrationNumber}")
-    public ResponseEntity getCarByRegistrationNumber(@PathVariable String registrationNumber) {
-        CarEntity car = carService.getCarByRegistrationNumber(registrationNumber);
-
-        if (car != null) {
-            return new ResponseEntity(car, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+    public CarEntity getCarByRegistrationNumber(@PathVariable String registrationNumber) {
+        return carService.getCarByRegistrationNumber(registrationNumber);
     }
 
-    @GetMapping
-    public ResponseEntity getAllCars() {
-        List<CarEntity> cars = carService.getAllCars();
+    @GetMapping("/all")
+    public List<CarEntity> getAllCars() {
+        return carService.getAllCars();
+    }
 
-        return new ResponseEntity(cars, HttpStatus.OK);
+    @GetMapping("/filter")
+    public List<CarEntity> filterCars(
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String fuelType
+    ){
+        return carService.filterCars(brand, model, fuelType);
     }
 
 }
