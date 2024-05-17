@@ -1,5 +1,6 @@
 package com.example.backend.Controllers;
 
+import com.example.backend.Entities.UserEntity;
 import com.example.backend.Security.UserRepository;
 import com.example.backend.Services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +41,18 @@ public class SecurityController {
     }
 
     @PostMapping("/security/sign-in")
-    public String signIn(String username, String password) {
-        return userService.validateUser(username, password, userRepository).toString();
+    public ResponseEntity<?> signIn(String username, String password) {
+        UserEntity user=userService.validateUser(username,password,userRepository);
+        if (user!=null)
+        {
+            ObjectMapper mapper=new ObjectMapper();
+            try {
+                String json=mapper.writeValueAsString(user);
+                return ResponseEntity.ok(json);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else return ResponseEntity.status(401).body("Bad credentials");
     }
 }
