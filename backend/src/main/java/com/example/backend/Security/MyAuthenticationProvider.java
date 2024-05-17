@@ -38,7 +38,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
             ObjectMapper mapper=new ObjectMapper();
             try {
                 String json=mapper.writeValueAsString(user);
-                return new UsernamePasswordAuthenticationToken(json,password,new ArrayList<>(grantedAuthorities));  //new ArrayList<>() grantedAuthorities
+                return new UsernamePasswordAuthenticationToken(json,password,new ArrayList<>(grantedAuthorities));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
