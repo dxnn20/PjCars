@@ -6,7 +6,6 @@ import com.example.backend.Services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,8 +53,6 @@ public class SecurityController {
                 throw new RuntimeException(e);
             }
         }
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Bad credentials");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        else return ResponseEntity.status(401).body("Bad credentials");
     }
 }
