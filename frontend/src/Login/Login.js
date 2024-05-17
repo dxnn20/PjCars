@@ -40,18 +40,25 @@ const Login = () => {
             body: formData,
         };
 
+
+
         try{
 
-            // const response = await axios.get('http://localhost:8081/cars/all');
-            fetch('http://localhost:8081/security/sign-in', requestOptions).then(response => response.json()).then(data => console.log(data));
-            // console.log(JSON.stringfy(response?.data) + 'got here');
-            // console.log(JSON.stringfy(response));
-            // const accessToken = response?.data?.accessToken;
-            // const roles = response?.data?.roles;
-            // setAuth({user, pwd, roles, accessToken});
+
+            fetch('http://localhost:8081/security/sign-in', requestOptions).then(response => response.json()).then(
+                data => {
+                    console.log(data.status);
+                    if(data.status != null){
+                        setAuth(data);
+                        setSuccess(true);
+
+                    }
+
+                }
+            );
             setUser('');
             setPwd('');
-            setSuccess(true);
+
         }catch(err){
             if(!err?.response){
                 setErrMsg('No Server Response');
