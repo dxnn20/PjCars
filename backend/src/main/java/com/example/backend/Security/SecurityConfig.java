@@ -35,7 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeHttpRequests(config -> config
-                        .requestMatchers("/cars/all").authenticated()
+                        .requestMatchers("/cars/all").permitAll()
                         .requestMatchers("/security/sign-up").permitAll()
                         .requestMatchers("/security/sign-in").permitAll()
                         .requestMatchers("/security").permitAll()
