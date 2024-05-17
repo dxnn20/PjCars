@@ -24,13 +24,13 @@ public class SecurityController {
     private UserRepository userRepository;
 
     @GetMapping
-    public String security() throws JsonProcessingException{
-        Map <String, Object> responseBody= new HashMap<>();
+    public String security() throws JsonProcessingException {
+        Map<String, Object> responseBody = new HashMap<>();
 
         responseBody.put("logged in", true);
 
-        ObjectMapper objectMapper=new ObjectMapper();
-        String json=objectMapper.writeValueAsString(responseBody);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(responseBody);
 
         return json;
     }
@@ -43,19 +43,19 @@ public class SecurityController {
 
     @PostMapping("/security/sign-in")
     public ResponseEntity<?> signIn(String username, String password) {
-        UserEntity user=userService.validateUser(username,password,userRepository);
-        if (user!=null)
-        {
-            ObjectMapper mapper=new ObjectMapper();
+        UserEntity user = userService.validateUser(username, password, userRepository);
+        if (user != null) {
+            ObjectMapper mapper = new ObjectMapper();
             try {
-                String json=mapper.writeValueAsString(user);
+                String json = mapper.writeValueAsString(user);
                 return ResponseEntity.ok(json);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "Bad credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Bad credentials");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }
