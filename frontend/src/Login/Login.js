@@ -8,7 +8,7 @@ const LOGIN_URL='http://localhost:8081/security/sign-in';
 
 const Login = () => {
 
-    const {setAuth} = useContext(AuthContext);
+    const setAuth = useContext(AuthContext);
     const userRef=useRef();
     const errRef = useRef();
     var formData = new FormData();
@@ -47,9 +47,10 @@ const Login = () => {
 
             fetch('http://localhost:8081/security/sign-in', requestOptions).then(response => response.json()).then(
                 data => {
-                    console.log(data.status);
+                    console.log(data);
+
                     if(data.status != null){
-                        setAuth(data);
+
                         setSuccess(true);
 
                     }
@@ -66,15 +67,17 @@ const Login = () => {
                 setErrMsg('Missing Username or Password');
             } else if(err.response?.status === 401){
                 setErrMsg('Unauthorized');
-            } else {
-                setErrMsg('Login Failed');
+
             }
+
+            }
+
             errRef.current.focus();
         }
 
 
 
-    }
+
 
     return (
         <>
