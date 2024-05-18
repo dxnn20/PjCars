@@ -2,7 +2,6 @@ import React, {useState, useEffect, useContext, useCallback} from 'react';
 import axiosInstance from "../Axios/axiosInstance";
 import AuthContext from "../Context/AuthProvider";
 import {Card, CardContent, Typography, Grid, Container, Button, ButtonGroup, Box} from '@mui/material';
-import {User} from "../Entities/User";
 
 const Admin: React.FC = () => {
     const [users, setUsers] = useState<any[]>([]);
@@ -17,6 +16,7 @@ const Admin: React.FC = () => {
         fetchUsersByStatus(selectedStatus);
     }, [authContext, selectedStatus]);
 
+    //DO NOT TOUCH - fetchUsersByStatus function to fetch users by status
     const fetchUsersByStatus = useCallback((status: string) => {
         axiosInstance.get('http://localhost:8081/users/by-status', {
             auth: {
@@ -37,6 +37,7 @@ const Admin: React.FC = () => {
         fetchUsersByStatus(selectedStatus);
     }, [authContext, selectedStatus, fetchUsersByStatus]);
 
+    //DO NOT TOUCH - handleApprove function to handle the approval of a user
     const handleApprove = (id: number) => {
         axiosInstance.put(`http://localhost:8081/users/approve-company`, {}, {
             params: {id},
@@ -54,6 +55,7 @@ const Admin: React.FC = () => {
             });
     };
 
+    //DO NOT TOUCH - handleReject function to handle the rejection of a user
     const handleReject = (id: number) => {
         axiosInstance.put(`http://localhost:8081/users/decline-company`, {}, {
             params: {id},
@@ -77,74 +79,88 @@ const Admin: React.FC = () => {
                 width: '100%',
                 height: '100%',
                 justifyContent: 'center',
-                }
+            }
             }
         >
             <Container
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: '100%',
-            }}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
 
             >
-            <Typography variant="h3" align="center" gutterBottom>
-                Admin Dashboard
-            </Typography>
+                <Container
+                    style={{
+                        marginTop: '200px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+
+                >
+                    <Typography variant="h3" align="center" gutterBottom>
+                        Here's your admin dashboard,
+                    </Typography>
+                    <Typography variant="h2" align="center" gutterBottom>
+                        {authContext?.auth?.username}
+                    </Typography>
+                </Container>
                 <ButtonGroup
                     variant="contained"
                     aria-label="outlined primary button group"
                     style={{
                         flexDirection: 'row',
                         alignItems: 'space-evenly',
-                        margin:'auto',
+                        margin: 'auto',
                         marginBottom: '10px',
                     }}
                 >
-            <Button aria-label="contained primary button"
-                    variant="contained"
-                onClick={() => fetchUsersByStatus(selectedStatus)}
-                style={{
-                    maxWidth: '100px',
-                    display: 'flex',
-                    padding: '10px',
-                    color: 'white',
-            }
-            }>Refresh</Button>
-                <Button aria-label="contained primary button"
-                        variant="contained"
-                        onClick={() =>
-                        axiosInstance.get('http://localhost:8081/logout', {}).then(
-                            (response) => {
-                                authContext?.setAuth(null);
-                                window.location.href = '/login';
-                                console.log(response.data)
+                    <Button aria-label="contained primary button"
+                            variant="contained"
+                            onClick={() => fetchUsersByStatus(selectedStatus)}
+                            style={{
+                                maxWidth: '100px',
+                                display: 'flex',
+                                padding: '10px',
+                                color: 'white',
                             }
-                        )
-                }
-                        style={{
-                            maxWidth: '100px',
-                            display: 'flex',
-                            padding: '10px',
-                            color: 'white',
-                        }
-                        }>Logout</Button>
+                            }>Refresh</Button>
+                    <Button aria-label="contained primary button"
+                            variant="contained"
+
+                        // !DO NOT TOUCH - Logout button, allowed to be modified for styling ONLY
+                            onClick={() =>
+                                axiosInstance.get('http://localhost:8081/logout', {}).then(
+                                    (response) => {
+                                        authContext?.setAuth(null);
+                                        window.location.href = '/login';
+                                        console.log(response.data)
+                                    }
+                                )
+                            }
+                            style={{
+                                maxWidth: '100px',
+                                display: 'flex',
+                                padding: '10px',
+                                color: 'white',
+                            }
+                            }>Logout</Button>
                 </ButtonGroup>
 
-            <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{
-                marginBottom: '20px',
-                flexDirection: 'row',
-                alignItems: 'center',
-                margin:'auto',
-            }}>
-                <Button onClick={() => setSelectedStatus('BASE')}>Base</Button>
-                <Button onClick={() => setSelectedStatus('PENDING')}>Pending</Button>
-                <Button onClick={() => setSelectedStatus('REJECTED')}>Rejected</Button>
-                <Button onClick={() => setSelectedStatus('APPROVED')}>Accepted</Button>
-            </ButtonGroup>
+                <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{
+                    marginBottom: '20px',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    margin: 'auto',
+                }}>
+                    <Button onClick={() => setSelectedStatus('BASE')}>Base</Button>
+                    <Button onClick={() => setSelectedStatus('PENDING')}>Pending</Button>
+                    <Button onClick={() => setSelectedStatus('REJECTED')}>Rejected</Button>
+                    <Button onClick={() => setSelectedStatus('APPROVED')}>Accepted</Button>
+                </ButtonGroup>
 
             </Container>
             <Grid container spacing={1}
@@ -158,29 +174,30 @@ const Admin: React.FC = () => {
                       maxHeight: '800px',
                       flexDirection: 'row',
                       flexWrap: 'wrap',
-                        justifyContent: 'space-evenly',
+                      justifyContent: 'space-evenly',
                   }}
 
             >
                 {users.map((user) => (
                     <Grid item
                           spacing={3}
-                          style={{display: 'flex',
+                          style={{
+                              display: 'flex',
                               marginRight: '10px',
                               minHeight: '200px',
                               minWidth: '100px',
                               maxWidth: '400px',
 
-                    }}
+                          }}
 
                           xs={12} sm={8} md={10} lg={8} key={user.id}>
                         <Card variant="outlined"
                               style={{
                                   minWidth: '400px',
-                                    minHeight: '100px',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                        }}
+                                  minHeight: '100px',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                              }}
                         >
                             <CardContent
                                 style={
@@ -201,8 +218,9 @@ const Admin: React.FC = () => {
                                 </Typography>
                                 {user.status === 'PENDING' && (
                                     <Box mt={2} display="flex" justifyContent="center"
-                                         style={{display: "flex", justifyContent: "center", alignItems: "center"
-                                    }}
+                                         style={{
+                                             display: "flex", justifyContent: "center", alignItems: "center"
+                                         }}
 
                                     >
                                         <Button
