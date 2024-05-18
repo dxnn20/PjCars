@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
@@ -36,13 +37,13 @@ public class SecurityController {
     }
 
     @PostMapping("/security/sign-up")
-    public String signUp(String username, String password) {
+    public String signUp(@RequestParam String username,@RequestParam String password) {
         userService.createUser(username, password);
         return "User created";
     }
 
     @PostMapping("/security/sign-in")
-    public ResponseEntity<?> signIn(String username, String password) {
+    public ResponseEntity<?> signIn(@RequestParam String username,@RequestParam String password) {
         UserEntity user = userService.validateUser(username, password, userRepository);
         if (user != null) {
             ObjectMapper mapper = new ObjectMapper();

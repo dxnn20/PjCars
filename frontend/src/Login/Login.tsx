@@ -35,6 +35,7 @@ const Login: React.FC = () => {
         setErrMsg('');
     }, [user, pwd]);
 
+    // function to handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
@@ -81,6 +82,7 @@ const Login: React.FC = () => {
             {success ? (
                 <section>
                     <h1>You are logged in!</h1>
+                    <h2>Redirecting...</h2>
                     <br/>
                 </section>
             ) : (
