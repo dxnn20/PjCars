@@ -54,4 +54,9 @@ public class UserController {
             return ResponseEntity.badRequest().body("User not found.");
         }
     }
+
+    @GetMapping("/by-status")
+    public ResponseEntity<?> getAllPending(@RequestParam String status) {
+        return ResponseEntity.ok(userRepository.findAllByStatus(status));
+    }
 }
