@@ -1,5 +1,7 @@
 package com.example.backend.Security;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,10 +14,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,18 +43,28 @@ public class SecurityConfig {
                         .requestMatchers("/security/sign-up").permitAll()
                         .requestMatchers("/security/sign-in").permitAll()
                         .requestMatchers("/security").permitAll()
+                        .requestMatchers("/users/by-status").hasAuthority("ADMIN")
                         .requestMatchers("/cars/create").hasAuthority("COMPANY")
                         .requestMatchers("/cars/{registrationNumber}").authenticated()
                         .requestMatchers("/cars/filter").permitAll()
                         .requestMatchers("/users/create").permitAll()
                         .requestMatchers("/users/request-company").hasAuthority("USER")
                         .requestMatchers("/users/approve-company").hasAuthority("ADMIN")
+                        .requestMatchers("/users/decline-company").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
-                .formLogin(withDefaults());
+                .formLogin(withDefaults())
+                        .logout(
+                                logout -> logout
+                                        .deleteCookies("JSESSIONID")
+                                        .invalidateHttpSession(false)
+                                        .logoutUrl("/logout")
+                                        .permitAll()
+                                        .logoutSuccessHandler(customLogoutSuccessHandler())
+                        )
+                        .exceptionHandling(AbstractHttpConfigurer::disable);
 
         httpSecurity.csrf(csrf -> csrf.disable());
 
-        httpSecurity.logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(false).logoutUrl("/logout").permitAll());
         httpSecurity.httpBasic(withDefaults());
 
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()));
@@ -75,6 +89,17 @@ public class SecurityConfig {
         return source;
     }
 
-
+    @Bean
+    public LogoutSuccessHandler customLogoutSuccessHandler() {
+        return new LogoutSuccessHandler() {
+            @Override
+            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.Authentication authentication) throws IOException {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"message\":\"Logged out successfully\"}");
+                response.getWriter().flush();
+            }
+        };
+    }
 
 }
