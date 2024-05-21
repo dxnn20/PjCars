@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -38,6 +39,15 @@ public class SecurityController {
 
     @PostMapping("/security/sign-up")
     public String signUp(@RequestParam String username,@RequestParam String password) {
+
+        List<UserEntity> users = userRepository.findAll();
+
+        for (UserEntity user : users) {
+            if (user.getUsername().equals(username)) {
+                return "Username already exists";
+            }
+        }
+
         userService.createUser(username, password);
         return "User created";
     }
