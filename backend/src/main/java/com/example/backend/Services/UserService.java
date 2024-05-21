@@ -4,6 +4,7 @@ import com.example.backend.Entities.UserEntity;
 import com.example.backend.Security.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -69,6 +70,14 @@ public class UserService {
             return true;
         }
         else return false;
+    }
+
+    public UserEntity getUserById(int Id){
+        return userRepository.findById(Id).orElse(null);
+    }
+
+    public List<UserEntity> getAllUsers(){
+        return userRepository.findAll();
     }
 
 }
