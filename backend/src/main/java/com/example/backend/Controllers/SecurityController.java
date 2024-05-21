@@ -38,18 +38,18 @@ public class SecurityController {
     }
 
     @PostMapping("/security/sign-up")
-    public String signUp(@RequestParam String username,@RequestParam String password) {
+    public ResponseEntity<?> signUp(@RequestParam String username,@RequestParam String password) {
 
         List<UserEntity> users = userRepository.findAll();
 
         for (UserEntity user : users) {
             if (user.getUsername().equals(username)) {
-                return "Username already exists";
+                return ResponseEntity.badRequest().body("User already exists");
             }
         }
 
         userService.createUser(username, password);
-        return "User created";
+        return ResponseEntity.ok("User created successfully.");
     }
 
     @PostMapping("/security/sign-in")
