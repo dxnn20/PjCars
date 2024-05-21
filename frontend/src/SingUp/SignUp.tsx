@@ -1,8 +1,7 @@
-import React from "react";
+import React, {useRef} from "react";
 import {Container, FormControl} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import axiosInstance from "../Axios/axiosInstance";
-import axios from "axios";
 import {User} from "../Entities/User";
 
 const SignUp: React.FC = () => {
@@ -10,25 +9,38 @@ const SignUp: React.FC = () => {
     const navigate = useNavigate();
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
+    const [errMsg, setErrMsg] = React.useState<string>('');
+    const errRef = useRef<HTMLParagraphElement>(null);
+    const [success, setSuccess] = React.useState<boolean>(false);
 
-    const handleSubmit = async () =>  {
+    const handleSubmit = async () => {
 
-        console.log(username);
-        console.log(password)
-
-        await axiosInstance.post<User>('http://localhost:8081/security/sign-up', null ,{
-            params: {
+        try {
+            const response = await axiosInstance.post<User>('http://localhost:8081/security/sign-up', {},{
+                params: {
                 username: username,
                 password: password
             }
-        })
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
             });
+            console.log(response.data);
+            setUsername('');
+            setPassword('');
+            setSuccess(true);
+            navigate('/login');
+        } catch (err : any) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Username already exists');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Login Failed');
+            }
+            errRef.current?.focus();
+        }
     }
+
 
     return (
         <Container
@@ -46,6 +58,19 @@ const SignUp: React.FC = () => {
             }}
         >
             <h1>Sign Up</h1>
+
+            {!success ? (
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
+                    {errMsg}
+                </p>
+
+            ) : (
+                <>
+                    <p>Sign Up Successful!</p>
+                </>
+            )
+            }
+
             <Container
             >
                 <FormControl>

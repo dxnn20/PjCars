@@ -44,7 +44,7 @@ public class SecurityController {
 
         for (UserEntity user : users) {
             if (user.getUsername().equals(username)) {
-                return ResponseEntity.badRequest().body("User already exists");
+                return ResponseEntity.status(400).body("User already exists");
             }
         }
 
