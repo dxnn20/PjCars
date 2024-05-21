@@ -2,6 +2,7 @@ package com.example.backend.Controllers;
 
 import com.example.backend.Entities.CarEntity;
 import com.example.backend.Services.CarService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public CarController(CarService carService) {
