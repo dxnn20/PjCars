@@ -7,6 +7,8 @@ import PrivateRoute from './Components/PrivateRoute';
 import User from "./User/User";
 import NotFound from "./NotFound/NotFound";
 import SignUp from "./SingUp/SignUp";
+import Company from "./Company/Company";
+import './App.css';
 
 const App: React.FC = () => {
     return (
@@ -21,6 +23,11 @@ const App: React.FC = () => {
             <Route path="/user" element={<PrivateRoute requiredRole={
                 'USER'
             } children={<User/>
+            }/>}>
+            </Route>
+            <Route path="/company" element={<PrivateRoute requiredRole={
+                'COMPANY'
+            } children={<Company/>
             }/>}>
             </Route>
             <Route path="*" element={<NotFound />} />
