@@ -8,7 +8,7 @@ interface CarCardProps {
 
 const CarCard: React.FC<CarCardProps>=({car}) =>{
     return (
-        <div className="card w-96 bg-primary text-primary-content">
+        <div className="card rounded-2xl bg-primary text-primary-content">
             <div className="card-body">
                 <h2 className="card-title">{car.brand} </h2>
                 <p className='model-subtitle'>{car.model}</p>

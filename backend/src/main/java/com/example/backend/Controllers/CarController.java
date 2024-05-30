@@ -61,4 +61,15 @@ public class CarController {
         return carService.filterCars(brand, model, fuelType);
     }
 
+    @DeleteMapping("/delete/{registrationNumber}")
+    public ResponseEntity deleteCarByRegistrationNumber(@PathVariable String registrationNumber) {
+        boolean deleted = carService.deleteCarByRegistrationNumber(registrationNumber);
+
+        if (deleted) {
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

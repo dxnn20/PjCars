@@ -5,6 +5,7 @@ import com.example.backend.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +20,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestParam String username, @RequestParam String password) {
-        userService.createUser(username, password);
+        userService.createUser(username, new BCryptPasswordEncoder().encode(password));
         return ResponseEntity.ok("User created successfully.");
     }
 
