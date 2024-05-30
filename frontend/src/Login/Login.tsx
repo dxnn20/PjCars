@@ -78,73 +78,69 @@ const Login: React.FC = () => {
     };
 
     return (
-        <>
-            {success ? (
-                <section>
-                    <h1>You are logged in!</h1>
-                    <h2>Redirecting...</h2>
-                    <br/>
-                </section>
-            ) : (
-                <section>
-                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
-                        {errMsg}
-                    </p>
-                    <h1>Sign In</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
-                            required
-                        />
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
-                            required
-                        />
-                        <button>Sign In</button>
-                    </form>
-                    <p>
-                        Need an Account? <br/>
-                        <span className="line">
+        <div className="min-h-screen h-dvh w-dvw overflow-x-hidden flex flex-col">
+            <div className="w-full max-w-md bg-white rounded-lg justify-center mx-auto shadow-md mt-11 p-6">
+                {success ? (
+                    <section>
+                        <h1 className="text-2xl font-semibold text-center">You are logged in!</h1>
+                        <h2 className="text-xl text-center">Redirecting...</h2>
+                    </section>
+                ) : (
+                    <section>
+                        <p ref={errRef} className={errMsg ? "text-red-500 text-center mt-4" : "hidden"} aria-live="assertive">
+                            {errMsg}
+                        </p>
+                        <h1 className="text-2xl font-semibold text-center">Sign In</h1>
+                        <form onSubmit={handleSubmit} className="space-y-4 mt-8">
+                            <div className="flex flex-col space-y-4">
+                                <div>
+                                    <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                                        Username:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        autoComplete="off"
+                                        onChange={(e) => setUser(e.target.value)}
+                                        value={user}
+                                        required
+                                        className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                        Password:
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        onChange={(e) => setPwd(e.target.value)}
+                                        value={pwd}
+                                        required
+                                        className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm"
+                                    />
+                                </div>
+                            </div>
                             <button
-                                style={{
-                                    backgroundColor: 'transparent',
-                                    border: '1px solid green',
-                                    maxWidth: '100px',
-                                    cursor: 'pointer',
-                                    padding: '0',
-                                    textDecoration: 'none',
-
-                                }}
-                                onClick={
-                                    () => {
-                                        navigate('/sign-up');
-                                    }
-                                }
+                                type="submit"
+                                className="w-full btn md:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                             >
-                                <p
-                                    style={{
-                                        color: 'green',
-                                        padding: '8px',
-                                        margin: '0',
-
-                                    }}
-                                >Sign Up</p>
+                                Sign In
                             </button>
-                        </span>
-                    </p>
-                </section>
-            )}
-        </>
+                        </form>
+                        <p className="mt-6 text-center">
+                            Need an Account? <br />
+                            <button
+                                onClick={() => navigate('/sign-up')}
+                                className="btn btn-link text-indigo-600 hover:text-indigo-700 mt-2"
+                            >
+                                Sign Up
+                            </button>
+                        </p>
+                    </section>
+                )}
+            </div>
+        </div>
     );
 };
 

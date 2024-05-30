@@ -57,4 +57,12 @@ public class CarService {
         return carRepository.filterCars(brand, model, fuelType);
     }
 
+    public boolean deleteCarByRegistrationNumber(String registrationNumber) {
+
+        if(carRepository.findByRegistrationNumber(registrationNumber) == null) return false;
+
+        carRepository.deleteByRegistrationNumber(registrationNumber);
+        return true;
+
+    }
 }

@@ -41,87 +41,71 @@ const SignUp: React.FC = () => {
         }
     }
 
-
     return (
-        <Container
-            style={{
-                backgroundColor: "white",
-                minHeight: "500px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "60vh",
-                border: "1px solid white",
-                borderRadius: "10px",
-                boxShadow: "0 0 30px 20px rgba(100, 100, 100, 0.1)",
-            }}
-        >
-            <h1>Sign Up</h1>
-
-            {!success ? (
-                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
-                    {errMsg}
-                </p>
-
-            ) : (
-                <>
-                    <p>Sign Up Successful!</p>
-                </>
-            )
-            }
-
-            <Container
-            >
-                <FormControl>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        autoComplete="off"
-                        required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <button
-
-                        onClick={
-                            () => {
-                                handleSubmit()
-                            }
-                        }
-
-                    >Sign Up</button>
-                </FormControl>
-
-                <Container
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: "1rem"
-                }}
-                onClick={
-                    () => {
-                        navigate('/login');
-                    }
-
-                }
+        <div className="min-h-screen h-dvh w-dvw overflow-x-hidden flex flex-col">
+            <div className="w-full max-w-md bg-white rounded-lg justify-center mx-auto shadow-md mt-11 p-6">
+                <h1 className="text-2xl font-semibold text-center">Sign Up</h1>
+                {!success ? (
+                    <p ref={errRef} className={errMsg ? "text-red-500 text-center mt-4" : "hidden"} aria-live="assertive">
+                        {errMsg}
+                    </p>
+                ) : (
+                    <p className="text-green-500 text-center mt-4">Sign Up Successful!</p>
+                )}
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit();
+                    }}
+                    className="space-y-4 mt-8"
                 >
-                <p>Have an account?</p>
-                <button>Sign In</button>
-                </Container>
-            </Container>
-        </Container>
+                    <div className="flex flex-col space-y-4">
+                        <div>
+                            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                                Username:
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                autoComplete="off"
+                                required
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                Password:
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm"
+                            />
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full btn md:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                    >
+                        Sign Up
+                    </button>
+                </form>
+                <div className="mt-6 text-center">
+                    <p>Have an account?</p>
+                    <button
+                        onClick={() => navigate('/login')}
+                        className="btn btn-link text-indigo-600 hover:text-indigo-700"
+                    >
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 }
 
